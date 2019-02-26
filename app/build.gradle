@@ -5,13 +5,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion project.compileSdkVersion
     defaultConfig {
         applicationId "com.example.moviedb"
-        minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
+        versionCode project.versionCode
+        versionName project.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -20,15 +20,43 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
-    implementation 'androidx.core:core-ktx:1.1.0-alpha04'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    implementation "androidx.appcompat:appcompat:$project.appcompat"
+    implementation "androidx.core:core-ktx:$project.ktx"
+    implementation "androidx.constraintlayout:constraintlayout:$project.constraintlayout"
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$project.lifecycle"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$project.lifecycle"
+
+    // Room
+    implementation "androidx.room:room-runtime:$project.room"
+    annotationProcessor "androidx.room:room-compiler:$project.room"
+    implementation "androidx.room:room-rxjava2:$project.room"
+
+    // Rx
+    implementation "io.reactivex.rxjava2:rxkotlin:$project.rx"
+
+    // Retrofit and OkHttp
+    implementation "com.squareup.retrofit2:retrofit:$project.retrofit"
+    implementation "com.squareup.okhttp3:okhttp:$project.okhttp"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$project.glide"
+    annotationProcessor "com.github.bumptech.glide:compiler:$project.glide"
+
+    // Koin
+    implementation "org.koin:koin-core:$project.koin"
+
+    testImplementation "junit:junit:$project.junit"
+    androidTestImplementation "androidx.test:runner:$project.runner"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$project.espresso"
+
 }
