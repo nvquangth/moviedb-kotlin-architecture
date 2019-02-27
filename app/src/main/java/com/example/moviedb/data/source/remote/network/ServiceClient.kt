@@ -23,7 +23,7 @@ fun createService(): Retrofit {
 
     okHttpBuilder.readTimeout(Constant.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
     okHttpBuilder.connectTimeout(Constant.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-    return Retrofit.Builder().baseUrl(Constant.BASE_IMG_URL)
+    return Retrofit.Builder().baseUrl(Constant.END_POINT)
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
         .client(okHttpBuilder.build())

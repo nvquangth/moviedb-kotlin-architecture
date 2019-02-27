@@ -9,22 +9,31 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.example.moviedb.BR
 
-abstract class BaseFragment<VB: ViewDataBinding, VM: BaseViewModel>: Fragment() {
+abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment() {
 
     private lateinit var viewBinding: VB
-    protected lateinit var viewModel: VM
+    abstract val viewModel: VM
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewBinding = DataBindingUtil.inflate(inflater, getLayoutResource(), container,false)
-        viewBinding.lifecycleOwner = this
-        lifecycle.addObserver(viewModel)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        viewBinding = DataBindingUtil.inflate(inflater, getLayoutResource(), container, false)
         return viewBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewBinding.lifecycleOwner = this
+        viewBinding.setVariable(BR.viewModel, viewModel)
+        viewBinding.executePendingBindings()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initComponentOnActivityCreated(viewBinding)
+        lifecycle.addObserver(viewModel)
     }
 
     protected fun toast(msg: String) {
