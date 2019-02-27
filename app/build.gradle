@@ -31,6 +31,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$project.appcompat"
     implementation "androidx.core:core-ktx:$project.ktx"
     implementation "androidx.constraintlayout:constraintlayout:$project.constraintlayout"
+    implementation "androidx.recyclerview:recyclerview:$project.recyclerview"
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$project.lifecycle"
@@ -47,6 +48,9 @@ dependencies {
     // Retrofit and OkHttp
     implementation "com.squareup.retrofit2:retrofit:$project.retrofit"
     implementation "com.squareup.okhttp3:okhttp:$project.okhttp"
+    implementation "com.squareup.retrofit2:converter-gson:$project.retrofit"
+    implementation "com.squareup.okhttp3:logging-interceptor:$project.retrofitLogger"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$project.retrofit"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$project.glide"
