@@ -7,7 +7,12 @@ import com.example.moviedb.ui.home.HomeFragment
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     override fun initComponentOnCreate(viewBinding: ActivityMainBinding) {
-        addFragment(HomeFragment.newInstance(), R.id.container, false, HomeFragment.javaClass.simpleName)
+        addFragment(
+            HomeFragment.newInstance(),
+            R.id.container,
+            false,
+            HomeFragment.TAG
+        )
     }
 
     override fun getLayoutResource(): Int = R.layout.activity_main

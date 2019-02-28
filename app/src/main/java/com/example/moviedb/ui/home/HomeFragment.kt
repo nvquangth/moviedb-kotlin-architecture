@@ -11,6 +11,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     companion object {
+        const val TAG = "HomeFragment"
         fun newInstance() = HomeFragment()
     }
 

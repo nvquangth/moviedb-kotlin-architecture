@@ -31,4 +31,9 @@ data class Movie(
 
     @SerializedName("overview")
     val mOverview: String? = null
-) : Parcelable
+) : Parcelable {
+    override fun equals(other: Any?): Boolean {
+        if (other == null || other !is Movie) return false
+        return other.mId == this.mId
+    }
+}
