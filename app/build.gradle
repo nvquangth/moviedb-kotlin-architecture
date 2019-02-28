@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion project.compileSdkVersion
@@ -13,6 +12,8 @@ android {
         versionCode project.versionCode
         versionName project.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        buildConfigField "String", "END_POINT", "\"${END_POINT}\""
     }
     buildTypes {
         release {
@@ -26,23 +27,29 @@ android {
     androidExtensions {
         experimental = true
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$project.appcompat"
     implementation "androidx.core:core-ktx:$project.ktx"
     implementation "androidx.constraintlayout:constraintlayout:$project.constraintlayout"
     implementation "androidx.recyclerview:recyclerview:$project.recyclerview"
+    implementation "com.google.android.material:material:$project.material"
+    implementation "androidx.vectordrawable:vectordrawable:$project.vectordrawable"
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$project.lifecycle"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$project.lifecycle"
+    kapt "androidx.lifecycle:lifecycle-compiler:$project.lifecycle"
 
     // Room
     implementation "androidx.room:room-runtime:$project.room"
-    annotationProcessor "androidx.room:room-compiler:$project.room"
+    kapt "androidx.room:room-compiler:$project.room"
     implementation "androidx.room:room-rxjava2:$project.room"
 
     // Rx
@@ -57,10 +64,11 @@ dependencies {
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$project.glide"
-    annotationProcessor "com.github.bumptech.glide:compiler:$project.glide"
+    kapt "com.github.bumptech.glide:compiler:$project.glide"
 
     // Koin
     implementation "org.koin:koin-core:$project.koin"
+    implementation "org.koin:koin-androidx-viewmodel:$project.koin"
 
     testImplementation "junit:junit:$project.junit"
     androidTestImplementation "androidx.test:runner:$project.runner"
