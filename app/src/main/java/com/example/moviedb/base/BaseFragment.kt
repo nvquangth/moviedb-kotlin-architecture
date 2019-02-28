@@ -36,6 +36,36 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         lifecycle.addObserver(viewModel)
     }
 
+    fun addFragment(
+        fragment: Fragment,
+        container: Int,
+        isAddToBackStack: Boolean = true,
+        tag: String
+    ) {
+        childFragmentManager.beginTransaction().apply {
+            add(container, fragment)
+            if (isAddToBackStack) {
+                addToBackStack(tag)
+            }
+            commit()
+        }
+    }
+
+    fun replaceFragment(
+        fragment: Fragment,
+        container: Int,
+        isAddToBackStack: Boolean = true,
+        tag: String
+    ) {
+        childFragmentManager.beginTransaction().apply {
+            replace(container, fragment)
+            if (isAddToBackStack) {
+                addToBackStack(tag)
+            }
+            commit()
+        }
+    }
+
     protected fun toast(msg: String) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
