@@ -20,6 +20,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         viewBinding = DataBindingUtil.inflate(inflater, getLayoutResource(), container, false)
+        viewBinding.root.isClickable = true
         return viewBinding.root
     }
 
@@ -34,6 +35,36 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         super.onActivityCreated(savedInstanceState)
         initComponentOnActivityCreated(viewBinding)
         lifecycle.addObserver(viewModel)
+    }
+
+    fun addFragment(
+        fragment: Fragment,
+        container: Int,
+        isAddToBackStack: Boolean = true,
+        tag: String
+    ) {
+        childFragmentManager.beginTransaction().apply {
+            add(container, fragment)
+            if (isAddToBackStack) {
+                addToBackStack(tag)
+            }
+            commit()
+        }
+    }
+
+    fun replaceFragment(
+        fragment: Fragment,
+        container: Int,
+        isAddToBackStack: Boolean = true,
+        tag: String
+    ) {
+        childFragmentManager.beginTransaction().apply {
+            replace(container, fragment)
+            if (isAddToBackStack) {
+                addToBackStack(tag)
+            }
+            commit()
+        }
     }
 
     protected fun toast(msg: String) {
