@@ -13,7 +13,7 @@ import com.example.moviedb.BR
 
 abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment() {
 
-    private lateinit var viewBinding: VB
+    lateinit var viewBinding: VB
     abstract val viewModel: VM
 
     override fun onCreateView(
@@ -25,7 +25,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.lifecycleOwner = this
+        viewBinding.lifecycleOwner = viewLifecycleOwner
         viewBinding.setVariable(BR.viewModel, viewModel)
         viewBinding.executePendingBindings()
     }
