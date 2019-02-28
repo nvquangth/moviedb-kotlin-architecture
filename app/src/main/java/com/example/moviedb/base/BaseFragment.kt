@@ -20,6 +20,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         viewBinding = DataBindingUtil.inflate(inflater, getLayoutResource(), container, false)
+        viewBinding.root.isClickable = true
         return viewBinding.root
     }
 

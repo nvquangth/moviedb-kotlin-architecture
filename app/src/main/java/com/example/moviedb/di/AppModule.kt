@@ -12,6 +12,8 @@ import com.example.moviedb.util.rx.BaseScheduler
 import com.example.moviedb.util.rx.SchedulerProvider
 import org.koin.androidx.viewmodel.experimental.builder.viewModel
 import org.koin.dsl.module.module
+import org.koin.experimental.builder.create
+import org.koin.experimental.builder.singleBy
 
 val viewModelModule = module {
     viewModel<HomeViewModel>()
@@ -25,12 +27,12 @@ val networkModule = module {
 }
 
 val repositoryModule = module {
-    single { MovieRepository(get()) }
-    single<MovieDataSource.Remote> { MovieRemoteDataSource(get()) }
+    single { create<MovieRepository>() }
+    singleBy<MovieDataSource.Remote, MovieRemoteDataSource>()
 }
 
 val rxModule = module {
-    single<BaseScheduler> { SchedulerProvider() }
+    singleBy<BaseScheduler, SchedulerProvider>()
 }
 
 val appModule = listOf(

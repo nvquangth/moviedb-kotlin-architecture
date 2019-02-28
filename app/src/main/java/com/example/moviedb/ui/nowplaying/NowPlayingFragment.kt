@@ -9,6 +9,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingViewModel>() {
 
     companion object {
+        const val TAG = "NowPlayingFragment"
         fun newInstance() = NowPlayingFragment()
     }
 

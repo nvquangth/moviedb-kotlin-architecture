@@ -21,7 +21,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             NowPlayingFragment.newInstance(),
             R.id.container,
             false,
-            NowPlayingFragment.javaClass.simpleName
+            NowPlayingFragment.TAG
         )
     }
 
