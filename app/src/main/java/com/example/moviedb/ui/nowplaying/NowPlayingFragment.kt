@@ -29,14 +29,16 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
                 DetailFragment.TAG
             )
         }
-        recycler_movie.layoutManager = LinearLayoutManager(context)
-        recycler_movie.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL
+        recycler_movie.apply {
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(
+                DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.VERTICAL
+                )
             )
-        )
-        recycler_movie.adapter = adapter
+            this.adapter = adapter
+        }
 
         viewModel.getData().observe(this, Observer { movies ->
             adapter.submitList(movies)

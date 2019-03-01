@@ -1,6 +1,7 @@
 package com.example.moviedb.base
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +12,7 @@ import androidx.fragment.app.Fragment
 abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity() {
 
     private lateinit var viewBinding: VB
-    protected lateinit var viewModel: VM
+    abstract val viewModel: VM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +23,23 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
 
     protected fun toast(msg: String) {
         Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun showBackActionbar() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    fun hideBackActionbar() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     fun addFragment(
