@@ -56,7 +56,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="@dimen/dp_8"
-            android:text='@{"Rate: " + String.valueOf(item.mVote)}'
+            android:text='@{@string/title_rate + String.valueOf(item.mVote)}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image"
             app:layout_constraintTop_toBottomOf="@+id/text_title" />

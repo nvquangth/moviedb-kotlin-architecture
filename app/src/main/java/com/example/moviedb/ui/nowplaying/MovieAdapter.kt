@@ -30,6 +30,6 @@ class MovieAdapter : BaseRecyclerAdapter<Movie>(object : DiffUtil.ItemCallback<M
     }
 
     override fun bind(binding: ViewDataBinding, item: Movie) {
-        (binding as ItemMovieBinding).item = item
+        if (binding is ItemMovieBinding) binding.item = item
     }
 }

@@ -1,6 +1,6 @@
 package com.example.moviedb.ui.nowplaying
 
-import androidx.lifecycle.LiveData
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import com.example.moviedb.base.BaseViewModel
 import com.example.moviedb.data.model.Movie
@@ -15,15 +15,17 @@ class NowPlayingViewModel(
     BaseViewModel() {
 
     private val movies: MutableLiveData<MutableList<Movie>> = MutableLiveData()
+    val loading: ObservableBoolean = ObservableBoolean(true)
 
     fun getMovies(page: Int) {
         val disposable: Disposable = repository.getMovies(page)
             .subscribeOn(scheduler.io())
             .observeOn(scheduler.ui())
             .subscribe({ movie ->
+                loading.set(false)
                 movies.value = movie.toMutableList()
             }, { throwable ->
-
+                loading.set(false)
             })
         compositeDisposable.add(disposable)
     }

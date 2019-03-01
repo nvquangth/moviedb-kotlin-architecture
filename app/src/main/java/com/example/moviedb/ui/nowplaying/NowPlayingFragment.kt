@@ -21,14 +21,14 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
 
     override fun initComponentOnActivityCreated(viewBinding: ViewDataBinding) {
         val adapter = MovieAdapter()
-        recyclerMovie.layoutManager = LinearLayoutManager(context)
-        recyclerMovie.addItemDecoration(
+        recycler_movie.layoutManager = LinearLayoutManager(context)
+        recycler_movie.addItemDecoration(
             DividerItemDecoration(
                 context,
                 DividerItemDecoration.VERTICAL
             )
         )
-        recyclerMovie.adapter = adapter
+        recycler_movie.adapter = adapter
 
         viewModel.getData().observe(this, Observer { movies ->
             adapter.submitList(movies)
