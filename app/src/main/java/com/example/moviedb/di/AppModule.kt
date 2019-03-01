@@ -5,6 +5,7 @@ import com.example.moviedb.data.source.MovieDataSource
 import com.example.moviedb.data.source.remote.network.MovieRemoteDataSource
 import com.example.moviedb.data.source.remote.network.createService
 import com.example.moviedb.data.source.remote.network.createServiceClient
+import com.example.moviedb.ui.detail.DetailViewModel
 import com.example.moviedb.ui.home.HomeViewModel
 import com.example.moviedb.ui.main.MainViewModel
 import com.example.moviedb.ui.nowplaying.NowPlayingViewModel
@@ -19,6 +20,7 @@ val viewModelModule = module {
     viewModel<HomeViewModel>()
     viewModel<MainViewModel>()
     viewModel<NowPlayingViewModel>()
+    viewModel<DetailViewModel>()
 }
 
 val networkModule = module {

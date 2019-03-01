@@ -10,23 +10,32 @@ import com.example.moviedb.base.BaseRecyclerAdapter
 import com.example.moviedb.data.model.Movie
 import com.example.moviedb.databinding.ItemMovieBinding
 
-class MovieAdapter : BaseRecyclerAdapter<Movie>(object : DiffUtil.ItemCallback<Movie>() {
-    override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-        return oldItem.mId == newItem.mId
-    }
+class MovieAdapter(private val listener: (Movie) -> Unit) :
+    BaseRecyclerAdapter<Movie>(object : DiffUtil.ItemCallback<Movie>() {
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            return oldItem.mId == newItem.mId
+        }
 
-    override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-        return oldItem == newItem
-    }
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            return oldItem == newItem
+        }
 
-}) {
+    }) {
     override fun createBinding(parent: ViewGroup, viewType: Int): ViewDataBinding {
-        return DataBindingUtil.inflate(
+        val binding: ViewDataBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             R.layout.item_movie,
             parent,
             false
         )
+        binding.root.setOnClickListener {
+            if (binding is ItemMovieBinding) {
+                binding.item?.let { movie ->
+                    listener.invoke(movie)
+                }
+            }
+        }
+        return binding
     }
 
     override fun bind(binding: ViewDataBinding, item: Movie) {
