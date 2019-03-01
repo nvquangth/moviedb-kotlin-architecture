@@ -21,6 +21,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
     ): View? {
         viewBinding = DataBindingUtil.inflate(inflater, getLayoutResource(), container, false)
         viewBinding.root.isClickable = true
+        viewBinding.root.setBackgroundColor(resources.getColor(android.R.color.white))
         return viewBinding.root
     }
 
