@@ -7,8 +7,8 @@ import io.reactivex.Single
 class MovieRemoteDataSource(val api: Api) : MovieDataSource.Remote {
 
     override fun getMovies(page: Int): Single<List<Movie>> {
-        return api.getNowPlaying(page).flatMap {
-            return@flatMap Single.create<List<Movie>> { _ -> it.mResult }
+        return api.getNowPlaying(page).map { response ->
+            response.mResult
         }
     }
 
