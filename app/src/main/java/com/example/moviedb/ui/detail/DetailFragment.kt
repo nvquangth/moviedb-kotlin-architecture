@@ -1,6 +1,6 @@
 package com.example.moviedb.ui.detail
 
-import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.databinding.ViewDataBinding
 import com.example.moviedb.R
 import com.example.moviedb.base.BaseFragment
@@ -12,15 +12,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
 
     companion object {
         const val TAG = "DetailFragment"
-        const val ARGUMENT_MOVIE = "ARGUMENT_MOVIE"
-        fun newInstance(movie: Movie): DetailFragment {
-            val fragment = DetailFragment()
-            val bundle: Bundle = Bundle()
-            bundle.putParcelable(ARGUMENT_MOVIE, movie)
-            fragment.arguments = bundle
-            return fragment
+        private const val ARGUMENT_MOVIE = "ARGUMENT_MOVIE"
+        fun newInstance(movie: Movie) = DetailFragment().apply {
+            arguments = bundleOf(
+                ARGUMENT_MOVIE to movie
+            )
         }
     }
+
 
     override val viewModel: DetailViewModel by viewModel()
 

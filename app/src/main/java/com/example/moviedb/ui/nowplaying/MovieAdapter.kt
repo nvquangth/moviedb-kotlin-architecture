@@ -1,7 +1,6 @@
 package com.example.moviedb.ui.nowplaying
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -30,7 +29,11 @@ class MovieAdapter(private val listener: (Movie) -> Unit) :
             false
         )
         binding.root.setOnClickListener {
-            listener.invoke((binding as ItemMovieBinding).item!!)
+            if (binding is ItemMovieBinding) {
+                binding.item?.let { movie ->
+                    listener.invoke(movie)
+                }
+            }
         }
         return binding
     }

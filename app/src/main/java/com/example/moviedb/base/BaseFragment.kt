@@ -20,22 +20,55 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         viewBinding = DataBindingUtil.inflate(inflater, getLayoutResource(), container, false)
-        viewBinding.root.isClickable = true
-        viewBinding.root.setBackgroundColor(resources.getColor(android.R.color.white))
-        return viewBinding.root
+        return viewBinding.root.apply {
+            isClickable = true
+            setBackgroundColor(resources.getColor(android.R.color.white))
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.lifecycleOwner = viewLifecycleOwner
-        viewBinding.setVariable(BR.viewModel, viewModel)
-        viewBinding.executePendingBindings()
+        viewBinding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            setVariable(BR.viewModel, viewModel)
+            executePendingBindings()
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initComponentOnActivityCreated(viewBinding)
         lifecycle.addObserver(viewModel)
+    }
+
+    fun addFragmentToActivity(
+        fragment: Fragment,
+        container: Int,
+        isAddToBackStack: Boolean,
+        tag: String
+    ) {
+        activity?.supportFragmentManager?.beginTransaction()?.apply {
+            add(container, fragment)
+            if (isAddToBackStack) {
+                addToBackStack(tag)
+            }
+            commit()
+        }
+    }
+
+    fun replaceFragmentToActivity(
+        fragment: Fragment,
+        container: Int,
+        isAddToBackStack: Boolean,
+        tag: String
+    ) {
+        activity?.supportFragmentManager?.beginTransaction()?.apply {
+            replace(container, fragment)
+            if (isAddToBackStack) {
+                addToBackStack(tag)
+            }
+            commit()
+        }
     }
 
     fun addFragment(

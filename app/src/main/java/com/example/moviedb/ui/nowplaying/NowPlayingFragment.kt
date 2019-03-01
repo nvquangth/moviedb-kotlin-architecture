@@ -8,7 +8,6 @@ import com.example.moviedb.R
 import com.example.moviedb.base.BaseFragment
 import com.example.moviedb.databinding.FragmentNowplayingBinding
 import com.example.moviedb.ui.detail.DetailFragment
-import com.example.moviedb.ui.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_nowplaying.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,7 +22,7 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
 
     override fun initComponentOnActivityCreated(viewBinding: ViewDataBinding) {
         val adapter = MovieAdapter { movie ->
-            (activity as MainActivity).addFragment(
+            addFragmentToActivity(
                 DetailFragment.newInstance(movie),
                 R.id.container,
                 true,

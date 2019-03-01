@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -29,12 +30,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="@dimen/dp_16"
-            android:text="@string/app_name"
             android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/button_favorite"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_movie" />
+            app:layout_constraintTop_toBottomOf="@+id/image_movie"
+            tools:text="Movie" />
 
         <ImageButton
             android:id="@+id/button_favorite"
@@ -55,9 +56,9 @@
             android:layout_marginLeft="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_8"
             android:padding="@dimen/dp_16"
-            android:text="@string/app_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_title" />
+            app:layout_constraintTop_toBottomOf="@+id/text_title"
+            tools:text="Movie" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
