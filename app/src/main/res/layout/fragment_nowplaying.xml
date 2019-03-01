@@ -23,7 +23,6 @@
             android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toTopOf="@+id/swipe_refresh_layout"
             app:layout_constraintEnd_toStartOf="@+id/swipe_refresh_layout"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/swipe_refresh_layout"
             app:layout_constraintTop_toBottomOf="@+id/swipe_refresh_layout" />
 

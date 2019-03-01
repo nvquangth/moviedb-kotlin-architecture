@@ -21,11 +21,13 @@ class NowPlayingViewModel(
         val disposable: Disposable = repository.getMovies(page)
             .subscribeOn(scheduler.io())
             .observeOn(scheduler.ui())
-            .subscribe({ movie ->
+            .doAfterTerminate {
                 loading.set(false)
+            }
+            .subscribe({ movie ->
                 movies.value = movie.toMutableList()
             }, { throwable ->
-                loading.set(false)
+
             })
         compositeDisposable.add(disposable)
     }
