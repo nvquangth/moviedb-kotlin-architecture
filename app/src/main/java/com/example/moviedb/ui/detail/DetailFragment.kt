@@ -27,18 +27,16 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
     override val viewModel: DetailViewModel by viewModel()
 
     override fun initComponentOnActivityCreated(viewBinding: ViewDataBinding) {
-        mainViewModel.activeActionbar(true)
+        mainViewModel.actionBarState.value = true
 
         val movie: Movie? = arguments?.getParcelable(ARGUMENT_MOVIE)
-        if (movie != null) {
-            viewModel.setMovie(movie)
-        }
+        viewModel.movie.value = movie?:return
     }
 
     override fun getLayoutResource(): Int = R.layout.fragment_detail
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mainViewModel.activeActionbar(false)
+        mainViewModel.actionBarState.value = false
     }
 }

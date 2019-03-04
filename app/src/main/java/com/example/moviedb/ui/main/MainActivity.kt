@@ -18,7 +18,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             HomeFragment.TAG
         )
 
-        viewModel.getStateActionBar().observe(this, Observer { active ->
+        viewModel.actionBarState.observe(this, Observer { active ->
             if (active) {
                 showBackActionbar()
             } else {
