@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide
 import com.example.moviedb.util.Constant
 
 @BindingAdapter("imageUrl")
-fun setImage(imageView: ImageView, url: String) {
+fun setImage(imageView: ImageView, url: String?) {
     Glide.with(imageView)
         .load("${Constant.BASE_IMG_URL}$url")
         .into(imageView)
