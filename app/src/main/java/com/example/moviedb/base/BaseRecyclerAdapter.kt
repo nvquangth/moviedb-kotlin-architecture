@@ -26,7 +26,7 @@ abstract class BaseRecyclerAdapter<T>(callback: DiffUtil.ItemCallback<T>) :
         if (list != null) {
             newList.addAll(list)
         }
-        super.submitList(list)
+        super.submitList(newList)
     }
 
     abstract fun createBinding(parent: ViewGroup, viewType: Int): ViewDataBinding

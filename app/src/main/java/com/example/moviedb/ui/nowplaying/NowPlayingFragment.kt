@@ -4,6 +4,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.moviedb.R
 import com.example.moviedb.base.BaseFragment
 import com.example.moviedb.databinding.FragmentNowplayingBinding
@@ -12,6 +13,8 @@ import kotlinx.android.synthetic.main.fragment_nowplaying.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingViewModel>() {
+
+    var page = 1
 
     companion object {
         const val TAG = "NowPlayingFragment"
@@ -29,8 +32,11 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
                 DetailFragment.TAG
             )
         }
+
+        val layoutManager = LinearLayoutManager(context)
+
         recycler_movie.apply {
-            layoutManager = LinearLayoutManager(context)
+            this.layoutManager = layoutManager
             addItemDecoration(
                 DividerItemDecoration(
                     context,
@@ -38,12 +44,27 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
                 )
             )
             this.adapter = adapter
+
         }
 
-        viewModel.getData().observe(this, Observer { movies ->
+
+        recycler_movie.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val lm: LinearLayoutManager = recycler_movie.layoutManager as LinearLayoutManager
+                if (lm.findLastVisibleItemPosition() == lm.itemCount - 1) {
+                    if (viewModel.loading.value == false) {
+                        page++
+                        viewModel.getMovies(page)
+                    }
+                }
+            }
+        })
+
+        viewModel.getData().observe(viewLifecycleOwner, Observer { movies ->
             adapter.submitList(movies)
         })
-        viewModel.getMovies(1)
+        viewModel.getMovies(page)
     }
 
     override fun getLayoutResource(): Int = R.layout.fragment_nowplaying
