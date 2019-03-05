@@ -55,8 +55,8 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
         viewModel.getData().observe(viewLifecycleOwner, Observer { movies ->
             adapter.submitList(movies)
         })
-        viewModel.refreshData.observe(viewLifecycleOwner, Observer { refresh ->
-            if (refresh != null) {
+        viewModel.refreshData.observe(viewLifecycleOwner, Observer {refresh ->
+            swipe_refresh_layout?.let {
                 swipe_refresh_layout.isRefreshing = refresh
             }
         })
