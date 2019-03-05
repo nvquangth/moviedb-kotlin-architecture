@@ -7,11 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviedb.R
 import com.example.moviedb.base.BaseFragment
 import com.example.moviedb.databinding.FragmentNowplayingBinding
+import com.example.moviedb.ui.EndlessScrollListener
 import com.example.moviedb.ui.detail.DetailFragment
 import kotlinx.android.synthetic.main.fragment_nowplaying.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingViewModel>() {
+
+    var page = 1
 
     companion object {
         const val TAG = "NowPlayingFragment"
@@ -29,6 +32,7 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
                 DetailFragment.TAG
             )
         }
+
         recycler_movie.apply {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
@@ -38,12 +42,29 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
                 )
             )
             this.adapter = adapter
+
         }
 
-        viewModel.getData().observe(this, Observer { movies ->
+        if (recycler_movie.layoutManager is LinearLayoutManager) {
+            val layoutManager = recycler_movie.layoutManager as LinearLayoutManager
+            recycler_movie.addOnScrollListener(object : EndlessScrollListener(layoutManager) {
+                override fun loadMore() {
+                    if (viewModel.loading.value == false) {
+                        viewModel.getMovies(page)
+                    }
+                }
+            })
+        }
+
+        viewModel.getData().observe(viewLifecycleOwner, Observer { movies ->
             adapter.submitList(movies)
         })
-        viewModel.getMovies(1)
+        viewModel.isSuccess.observe(viewLifecycleOwner, Observer { success ->
+            if (success) {
+                page++
+            }
+        })
+        viewModel.getMovies(page)
     }
 
     override fun getLayoutResource(): Int = R.layout.fragment_nowplaying
