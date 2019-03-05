@@ -17,7 +17,6 @@ class NowPlayingViewModel(
     var loading: MutableLiveData<Boolean> = MutableLiveData()
     var refreshData: MutableLiveData<Boolean> = MutableLiveData()
     var currentPage = 1
-    var tmpPage = 1
 
     fun getMovies(page: Int) {
         loading.value = true
@@ -36,7 +35,7 @@ class NowPlayingViewModel(
                     this.movies.value = data
                 }
                 currentPage++
-                if (refreshData.value == true && tmpPage == currentPage) {
+                if (refreshData.value == true) {
                     refreshData.value = false
                 }
             }, { throwable ->
@@ -46,12 +45,9 @@ class NowPlayingViewModel(
 
     fun onRefresh() {
         refreshData.value = true
-        tmpPage = currentPage
         currentPage = 1
         movies.value = null
-        for (page in 1 until tmpPage) {
-            getMovies(page)
-        }
+        getMovies(currentPage)
     }
 
     fun getData(): MutableLiveData<MutableList<Movie>> = movies

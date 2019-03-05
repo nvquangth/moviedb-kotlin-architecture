@@ -45,11 +45,9 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
 
         if (recycler_movie.layoutManager is LinearLayoutManager) {
             val layoutManager = recycler_movie.layoutManager as LinearLayoutManager
-            recycler_movie.addOnScrollListener(object : EndlessScrollListener(layoutManager) {
-                override fun loadMore() {
-                    if (viewModel.loading.value == false && viewModel.refreshData.value == false) {
-                        viewModel.getMovies(viewModel.currentPage)
-                    }
+            recycler_movie.addOnScrollListener(EndlessScrollListener(layoutManager) {
+                if (viewModel.loading.value == false && viewModel.refreshData.value == false) {
+                    viewModel.getMovies(viewModel.currentPage)
                 }
             })
         }
@@ -58,7 +56,9 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
             adapter.submitList(movies)
         })
         viewModel.refreshData.observe(viewLifecycleOwner, Observer { refresh ->
-            swipe_refresh_layout.isRefreshing = refresh
+            if (refresh != null) {
+                swipe_refresh_layout.isRefreshing = refresh
+            }
         })
         viewModel.getMovies(viewModel.currentPage)
     }
