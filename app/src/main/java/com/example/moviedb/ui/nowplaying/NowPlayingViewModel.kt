@@ -15,6 +15,7 @@ class NowPlayingViewModel(
 
     private val movies: MutableLiveData<MutableList<Movie>> = MutableLiveData()
     var loading: MutableLiveData<Boolean> = MutableLiveData()
+    var isSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
     fun getMovies(page: Int) {
         loading.value = true
@@ -24,16 +25,17 @@ class NowPlayingViewModel(
             .doAfterTerminate {
                 loading.value = false
             }
-            .subscribe({ movie ->
-                if (movies.value == null) {
-                    movies.value = movie.toMutableList()
+            .subscribe({ movies ->
+                if (this.movies.value == null) {
+                    this.movies.value = movies.toMutableList()
                 } else {
-                    val data: MutableList<Movie> = movies.value!!
-                    data.addAll(movie)
-                    movies.value = data
+                    val data: MutableList<Movie> = this.movies.value!!
+                    data.addAll(movies)
+                    this.movies.value = data
                 }
+                isSuccess.value = true
             }, { throwable ->
-
+                isSuccess.value = false
             })
         compositeDisposable.add(disposable)
     }
