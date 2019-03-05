@@ -15,7 +15,9 @@ class NowPlayingViewModel(
 
     private val movies: MutableLiveData<MutableList<Movie>> = MutableLiveData()
     var loading: MutableLiveData<Boolean> = MutableLiveData()
-    var isSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    var refreshData: MutableLiveData<Boolean> = MutableLiveData()
+    var currentPage = 1
+    var tmpPage = 1
 
     fun getMovies(page: Int) {
         loading.value = true
@@ -33,11 +35,23 @@ class NowPlayingViewModel(
                     data.addAll(movies)
                     this.movies.value = data
                 }
-                isSuccess.value = true
+                currentPage++
+                if (refreshData.value == true && tmpPage == currentPage) {
+                    refreshData.value = false
+                }
             }, { throwable ->
-                isSuccess.value = false
             })
         compositeDisposable.add(disposable)
+    }
+
+    fun onRefresh() {
+        refreshData.value = true
+        tmpPage = currentPage
+        currentPage = 1
+        movies.value = null
+        for (page in 1 until tmpPage) {
+            getMovies(page)
+        }
     }
 
     fun getData(): MutableLiveData<MutableList<Movie>> = movies

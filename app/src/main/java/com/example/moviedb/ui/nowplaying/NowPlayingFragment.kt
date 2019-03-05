@@ -14,8 +14,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingViewModel>() {
 
-    var page = 1
-
     companion object {
         const val TAG = "NowPlayingFragment"
         fun newInstance() = NowPlayingFragment()
@@ -49,8 +47,8 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
             val layoutManager = recycler_movie.layoutManager as LinearLayoutManager
             recycler_movie.addOnScrollListener(object : EndlessScrollListener(layoutManager) {
                 override fun loadMore() {
-                    if (viewModel.loading.value == false) {
-                        viewModel.getMovies(page)
+                    if (viewModel.loading.value == false && viewModel.refreshData.value == false) {
+                        viewModel.getMovies(viewModel.currentPage)
                     }
                 }
             })
@@ -59,12 +57,10 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
         viewModel.getData().observe(viewLifecycleOwner, Observer { movies ->
             adapter.submitList(movies)
         })
-        viewModel.isSuccess.observe(viewLifecycleOwner, Observer { success ->
-            if (success) {
-                page++
-            }
+        viewModel.refreshData.observe(viewLifecycleOwner, Observer { refresh ->
+            swipe_refresh_layout.isRefreshing = refresh
         })
-        viewModel.getMovies(page)
+        viewModel.getMovies(viewModel.currentPage)
     }
 
     override fun getLayoutResource(): Int = R.layout.fragment_nowplaying
