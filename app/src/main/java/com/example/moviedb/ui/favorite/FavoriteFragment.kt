@@ -1,5 +1,6 @@
 package com.example.moviedb.ui.favorite
 
+import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -12,7 +13,7 @@ import com.example.moviedb.ui.nowplaying.MovieAdapter
 import kotlinx.android.synthetic.main.fragment_favorite.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FavoriteFragment: BaseFragment<FragmentFavoriteBinding, FavoriteViewModel>() {
+class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, FavoriteViewModel>() {
 
     companion object {
         const val TAG = "FavoriteFragment"
@@ -21,8 +22,11 @@ class FavoriteFragment: BaseFragment<FragmentFavoriteBinding, FavoriteViewModel>
 
     override val viewModel: FavoriteViewModel by viewModel()
 
-    override fun initComponentOnActivityCreated(viewBinding: ViewDataBinding) {
-        val adapter = MovieAdapter {movie ->
+    override fun initComponentOnActivityCreated(
+        viewBinding: ViewDataBinding,
+        savedInstanceState: Bundle?
+    ) {
+        val adapter = MovieAdapter { movie ->
             addFragmentToActivity(
                 DetailFragment.newInstance(movie),
                 R.id.container,
@@ -42,7 +46,7 @@ class FavoriteFragment: BaseFragment<FragmentFavoriteBinding, FavoriteViewModel>
             this.adapter = adapter
         }
 
-        viewModel.movies.observe(viewLifecycleOwner, Observer {movies ->
+        viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
             adapter.submitList(movies)
         })
         viewModel.getMovies()

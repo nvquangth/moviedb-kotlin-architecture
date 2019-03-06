@@ -18,7 +18,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
         super.onCreate(savedInstanceState)
         viewBinding = DataBindingUtil.setContentView(this, getLayoutResource())
         viewBinding.lifecycleOwner = this
-        initComponentOnCreate(viewBinding)
+        initComponentOnCreate(viewBinding, savedInstanceState)
     }
 
     protected fun toast(msg: String) {
@@ -49,7 +49,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
         tag: String
     ) {
         supportFragmentManager.beginTransaction().apply {
-            add(container, fragment)
+            add(container, fragment, tag)
             if (isAddToBackStack) {
                 addToBackStack(tag)
             }
@@ -64,7 +64,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
         tag: String
     ) {
         supportFragmentManager.beginTransaction().apply {
-            replace(container, fragment)
+            replace(container, fragment, tag)
             if (isAddToBackStack) {
                 addToBackStack(tag)
             }
@@ -72,7 +72,9 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
         }
     }
 
-    abstract fun initComponentOnCreate(viewBinding: VB)
+    fun findFragmentByTag(tag: String) = supportFragmentManager.findFragmentByTag(tag)
+
+    abstract fun initComponentOnCreate(viewBinding: VB, savedInstanceState: Bundle?)
 
     @LayoutRes
     abstract fun getLayoutResource(): Int

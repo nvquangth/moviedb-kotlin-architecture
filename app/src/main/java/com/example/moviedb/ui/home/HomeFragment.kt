@@ -1,5 +1,6 @@
 package com.example.moviedb.ui.home
 
+import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import com.example.moviedb.R
 import com.example.moviedb.base.BaseFragment
@@ -19,37 +20,53 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     override val viewModel: HomeViewModel by viewModel()
 
-    override fun initComponentOnActivityCreated(viewBinding: ViewDataBinding) {
-        addFragment(
-            NowPlayingFragment.newInstance(),
-            R.id.container,
-            false,
-            NowPlayingFragment.TAG
-        )
+    override fun initComponentOnActivityCreated(
+        viewBinding: ViewDataBinding,
+        savedInstanceState: Bundle?
+    ) {
+        if (savedInstanceState == null) {
+            replaceNowPlayingFragment()
+        }
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
     override fun getLayoutResource() = R.layout.fragment_home
 
+    private fun replaceNowPlayingFragment() {
+        var fragment = findFragmentByTag(NowPlayingFragment.TAG)
+        if (fragment == null) {
+            fragment = NowPlayingFragment.newInstance()
+        }
+        replaceFragment(
+            fragment,
+            R.id.container,
+            true,
+            NowPlayingFragment.TAG
+        )
+    }
+
+    private fun replaceFavoriteFragment() {
+        var fragment = findFragmentByTag(FavoriteFragment.TAG)
+        if (fragment == null) {
+            fragment = FavoriteFragment.newInstance()
+        }
+        replaceFragment(
+            fragment,
+            R.id.container,
+            true,
+            FavoriteFragment.TAG
+        )
+    }
+
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    replaceFragment(
-                        NowPlayingFragment.newInstance(),
-                        R.id.container,
-                        false,
-                        NowPlayingFragment.TAG
-                    )
+                    replaceNowPlayingFragment()
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_favorite -> {
-                    replaceFragment(
-                        FavoriteFragment.newInstance(),
-                        R.id.container,
-                        false,
-                        NowPlayingFragment.TAG
-                    )
+                    replaceFavoriteFragment()
                     return@OnNavigationItemSelectedListener true
                 }
             }
