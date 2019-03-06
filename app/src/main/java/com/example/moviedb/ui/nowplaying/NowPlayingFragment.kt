@@ -1,5 +1,6 @@
 package com.example.moviedb.ui.nowplaying
 
+import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -21,7 +22,10 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
 
     override val viewModel: NowPlayingViewModel by viewModel()
 
-    override fun initComponentOnActivityCreated(viewBinding: ViewDataBinding) {
+    override fun initComponentOnActivityCreated(
+        viewBinding: ViewDataBinding,
+        savedInstanceState: Bundle?
+    ) {
         val adapter = MovieAdapter { movie ->
             addFragmentToActivity(
                 DetailFragment.newInstance(movie),
@@ -55,7 +59,7 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
         viewModel.getData().observe(viewLifecycleOwner, Observer { movies ->
             adapter.submitList(movies)
         })
-        viewModel.refreshData.observe(viewLifecycleOwner, Observer {refresh ->
+        viewModel.refreshData.observe(viewLifecycleOwner, Observer { refresh ->
             swipe_refresh_layout?.let {
                 swipe_refresh_layout.isRefreshing = refresh
             }

@@ -1,5 +1,6 @@
 package com.example.moviedb.ui.detail
 
+import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.databinding.ViewDataBinding
 import com.example.moviedb.R
@@ -26,11 +27,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
 
     override val viewModel: DetailViewModel by viewModel()
 
-    override fun initComponentOnActivityCreated(viewBinding: ViewDataBinding) {
+    override fun initComponentOnActivityCreated(
+        viewBinding: ViewDataBinding,
+        savedInstanceState: Bundle?
+    ) {
         mainViewModel.actionBarState.value = true
 
         val movie: Movie? = arguments?.getParcelable(ARGUMENT_MOVIE)
-        viewModel.movie.value = movie?:return
+        viewModel.movie.value = movie ?: return
         viewModel.checkFavorite()
     }
 

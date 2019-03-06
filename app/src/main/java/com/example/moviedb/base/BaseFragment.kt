@@ -37,7 +37,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initComponentOnActivityCreated(viewBinding)
+        initComponentOnActivityCreated(viewBinding, savedInstanceState)
         lifecycle.addObserver(viewModel)
     }
 
@@ -48,7 +48,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         tag: String
     ) {
         activity?.supportFragmentManager?.beginTransaction()?.apply {
-            add(container, fragment)
+            add(container, fragment, tag)
             if (isAddToBackStack) {
                 addToBackStack(tag)
             }
@@ -63,7 +63,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         tag: String
     ) {
         activity?.supportFragmentManager?.beginTransaction()?.apply {
-            replace(container, fragment)
+            replace(container, fragment, tag)
             if (isAddToBackStack) {
                 addToBackStack(tag)
             }
@@ -78,7 +78,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         tag: String
     ) {
         childFragmentManager.beginTransaction().apply {
-            add(container, fragment)
+            add(container, fragment, tag)
             if (isAddToBackStack) {
                 addToBackStack(tag)
             }
@@ -93,7 +93,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         tag: String
     ) {
         childFragmentManager.beginTransaction().apply {
-            replace(container, fragment)
+            replace(container, fragment, tag)
             if (isAddToBackStack) {
                 addToBackStack(tag)
             }
@@ -101,11 +101,16 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         }
     }
 
+    fun findFragmentByTag(tag: String) = childFragmentManager.findFragmentByTag(tag)
+
     protected fun toast(msg: String) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 
-    abstract fun initComponentOnActivityCreated(viewBinding: ViewDataBinding)
+    abstract fun initComponentOnActivityCreated(
+        viewBinding: ViewDataBinding,
+        savedInstanceState: Bundle?
+    )
 
     @LayoutRes
     abstract fun getLayoutResource(): Int
