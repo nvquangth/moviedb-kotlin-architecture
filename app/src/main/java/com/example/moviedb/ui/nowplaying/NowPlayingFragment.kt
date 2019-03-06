@@ -46,7 +46,7 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
         if (recycler_movie.layoutManager is LinearLayoutManager) {
             val layoutManager = recycler_movie.layoutManager as LinearLayoutManager
             recycler_movie.addOnScrollListener(EndlessScrollListener(layoutManager) {
-                if (viewModel.loading.value == false && viewModel.refreshData.value == false) {
+                if (viewModel.loading.value == false) {
                     viewModel.getMovies(viewModel.currentPage)
                 }
             })

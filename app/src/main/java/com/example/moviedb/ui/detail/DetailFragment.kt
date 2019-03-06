@@ -31,6 +31,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
 
         val movie: Movie? = arguments?.getParcelable(ARGUMENT_MOVIE)
         viewModel.movie.value = movie?:return
+        viewModel.checkFavorite()
     }
 
     override fun getLayoutResource(): Int = R.layout.fragment_detail

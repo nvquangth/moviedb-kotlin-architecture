@@ -1,6 +1,5 @@
 package com.example.moviedb.data.source.local.sqlite
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.moviedb.data.model.Movie
 import io.reactivex.Completable
@@ -19,7 +18,7 @@ interface MovieDao {
     fun delete(movie: Movie): Completable
 
     @Query("SELECT * FROM movie")
-    fun getMovies(): LiveData<List<Movie>>
+    fun getMovies(): Single<List<Movie>>
 
     @Query("SELECT * FROM movie WHERE id = :id")
     fun getMovie(id: Int): Single<Movie>
