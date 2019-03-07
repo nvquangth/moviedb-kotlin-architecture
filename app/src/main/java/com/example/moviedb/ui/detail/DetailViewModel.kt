@@ -38,6 +38,7 @@ class DetailViewModel(
             }
         } else {
             movie.value?.let {
+                it.isFavorite = true
                 addMovie(it)
             }
         }

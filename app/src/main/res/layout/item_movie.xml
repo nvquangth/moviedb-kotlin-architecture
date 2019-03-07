@@ -47,9 +47,9 @@
             android:background="@null"
             android:contentDescription="@string/app_name"
             android:padding="@dimen/dp_8"
+            android:src="@{item.isFavorite ? @drawable/ic_favorite_black_24dp : @drawable/ic_favorite_border_black_24dp}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_favorite_black_24dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/text_rating"

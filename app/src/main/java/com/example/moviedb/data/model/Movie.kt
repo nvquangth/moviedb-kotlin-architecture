@@ -30,5 +30,7 @@ data class Movie(
     val mBackdropPath: String? = null,
 
     @SerializedName("overview")
-    val mOverview: String? = null
+    val mOverview: String? = null,
+
+    var isFavorite: Boolean
 ) : Parcelable
