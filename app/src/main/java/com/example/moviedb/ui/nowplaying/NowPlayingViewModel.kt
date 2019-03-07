@@ -15,11 +15,13 @@ class NowPlayingViewModel(
 
     private val movies: MutableLiveData<MutableList<Movie>> = MutableLiveData()
     var loading: MutableLiveData<Boolean> = MutableLiveData()
-    var refreshData: MutableLiveData<Boolean> = MutableLiveData()
+    var refreshData: MutableLiveData<Boolean> = MutableLiveData(false)
     var currentPage = 1
 
     fun getMovies(page: Int) {
-        loading.value = true
+        if (refreshData.value == false) {
+            loading.value = true
+        }
         val disposable: Disposable = repository.getMovies(page)
             .subscribeOn(scheduler.io())
             .observeOn(scheduler.ui())
@@ -27,12 +29,14 @@ class NowPlayingViewModel(
                 loading.value = false
             }
             .subscribe({ movies ->
-                if (this.movies.value == null) {
+                if (refreshData.value == true || this.movies.value == null) {
                     this.movies.value = movies.toMutableList()
                 } else {
-                    val data: MutableList<Movie> = this.movies.value!!
-                    data.addAll(movies)
-                    this.movies.value = data
+                    this.movies.value?.let {
+                        val data: MutableList<Movie> = it
+                        data.addAll(movies)
+                        this.movies.value = data
+                    }
                 }
                 currentPage++
                 if (refreshData.value == true) {
@@ -45,8 +49,8 @@ class NowPlayingViewModel(
 
     fun onRefresh() {
         refreshData.value = true
+        loading.value = false
         currentPage = 1
-        movies.value = null
         getMovies(currentPage)
     }
 
