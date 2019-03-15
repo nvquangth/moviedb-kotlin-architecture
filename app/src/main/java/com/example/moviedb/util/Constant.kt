@@ -1,6 +1,7 @@
 package com.example.moviedb.util
 
 object Constant {
+    const val END_POINT = "https://api.themoviedb.org"
     const val DATABASE_NAME = "moviedb"
     const val BASE_IMG_URL = "http://image.tmdb.org/t/p/w185"
     const val CONNECTION_TIMEOUT = 60L

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/home_dest">
+
+    <fragment
+        android:id="@+id/home_dest"
+        android:name="com.example.moviedb.ui.nowplaying.NowPlayingFragment"
+        android:label="Now Playing"
+        tools:layout="@layout/fragment_nowplaying">
+        <action
+            android:id="@+id/action_nowPlayingFragment_to_detailFragment"
+            app:destination="@id/detail_dest" />
+    </fragment>
+    <fragment
+        android:id="@+id/favorite_dest"
+        android:name="com.example.moviedb.ui.favorite.FavoriteFragment"
+        android:label="Favorite"
+        tools:layout="@layout/fragment_favorite">
+        <action
+            android:id="@+id/action_favoriteFragment_to_detailFragment"
+            app:destination="@id/detail_dest" />
+    </fragment>
+    <fragment
+        android:id="@+id/detail_dest"
+        android:name="com.example.moviedb.ui.detail.DetailFragment"
+        android:label="{ARGUMENT_TITLE}"
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="ARGUMENT_MOVIE"
+            app:argType="com.example.moviedb.data.model.Movie" />
+        <argument
+            android:name="ARGUMENT_TITLE"
+            android:defaultValue="Detail Movie"
+            app:argType="string" />
+    </fragment>
+</navigation>
