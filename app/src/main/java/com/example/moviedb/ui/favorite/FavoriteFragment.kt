@@ -1,8 +1,10 @@
 package com.example.moviedb.ui.favorite
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviedb.R
@@ -15,11 +17,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, FavoriteViewModel>() {
 
-    companion object {
-        const val TAG = "FavoriteFragment"
-        fun newInstance() = FavoriteFragment()
-    }
-
     override val viewModel: FavoriteViewModel by viewModel()
 
     override fun initComponentOnActivityCreated(
@@ -27,11 +24,12 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, FavoriteViewModel
         savedInstanceState: Bundle?
     ) {
         val adapter = MovieAdapter { movie ->
-            addFragmentToActivity(
-                DetailFragment.newInstance(movie),
-                R.id.container,
-                true,
-                DetailFragment.TAG
+            findNavController().navigate(
+                R.id.detail_dest,
+                bundleOf(
+                    DetailFragment.ARGUMENT_MOVIE to movie,
+                    DetailFragment.ARGUMENT_TITLE to movie.mTitle
+                )
             )
         }
 
