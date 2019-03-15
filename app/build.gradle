@@ -1,77 +1,115 @@
 apply plugin: 'com.android.application'
+
 apply plugin: 'kotlin-android'
+
 apply plugin: 'kotlin-android-extensions'
+
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion project.compileSdkVersion
+    compileSdkVersion deps.build_versions.target_sdk
     defaultConfig {
         applicationId "com.example.moviedb"
-        minSdkVersion project.minSdkVersion
-        targetSdkVersion project.targetSdkVersion
-        versionCode project.versionCode
-        versionName project.versionName
+        minSdkVersion deps.build_versions.min_sdk
+        targetSdkVersion deps.build_versions.target_sdk
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary = true
-        buildConfigField "String", "END_POINT", "\"${END_POINT}\""
     }
     buildTypes {
-        release {
+        debug {
+            debuggable true
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            useProguard false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            debuggable false
+            minifyEnabled true
+            useProguard true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        develop {
+
+        }
+
+        mock {
+
+        }
+
+        production {
+
+        }
+    }
+
+    applicationVariants.all { variant ->
+
+    }
+
     dataBinding {
         enabled = true
     }
-    androidExtensions {
-        experimental = true
-    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    flavorDimensions "default"
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.appcompat:appcompat:$project.appcompat"
-    implementation "androidx.core:core-ktx:$project.ktx"
-    implementation "androidx.constraintlayout:constraintlayout:$project.constraintlayout"
-    implementation "androidx.recyclerview:recyclerview:$project.recyclerview"
-    implementation "com.google.android.material:material:$project.material"
-    implementation "androidx.vectordrawable:vectordrawable:$project.vectordrawable"
 
-    // ViewModel and LiveData
-    implementation "androidx.lifecycle:lifecycle-extensions:$project.lifecycle"
-    kapt "androidx.lifecycle:lifecycle-compiler:$project.lifecycle"
+    implementation deps.kotlin.stdlib
+    implementation deps.support.appcompat
+    implementation deps.support.core_ktx
+    implementation deps.support.constraintlayout
+    implementation deps.support.recyclerview
+    implementation deps.support.material
+    implementation deps.support.vectordrawable
 
-    // Room
-    implementation "androidx.room:room-runtime:$project.room"
-    kapt "androidx.room:room-compiler:$project.room"
-    implementation "androidx.room:room-rxjava2:$project.room"
+    implementation deps.lifecycle.lifecycle
+    implementation deps.lifecycle.java8
 
-    // Rx
-    implementation "io.reactivex.rxjava2:rxandroid:$project.rxandroid"
+    implementation deps.koin.koin_core
+    implementation deps.koin.koin_scope
+    implementation deps.koin.koin_viewmodel
 
-    // Retrofit and OkHttp
-    implementation "com.squareup.retrofit2:retrofit:$project.retrofit"
-    implementation "com.squareup.okhttp3:okhttp:$project.okhttp"
-    implementation "com.squareup.retrofit2:converter-gson:$project.retrofit"
-    implementation "com.squareup.okhttp3:logging-interceptor:$project.retrofitLogger"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$project.retrofit"
+    implementation deps.room.room
+    implementation deps.room.rxjava
+    kapt deps.room.complier
 
-    // Glide
-    implementation "com.github.bumptech.glide:glide:$project.glide"
-    kapt "com.github.bumptech.glide:compiler:$project.glide"
+    implementation deps.rx.rxjava
+    implementation deps.rx.rxandroid
 
-    // Koin
-    implementation "org.koin:koin-core:$project.koin"
-    implementation "org.koin:koin-androidx-viewmodel:$project.koin"
+    implementation deps.retrofit.retrofit
+    implementation deps.retrofit.gson
+    implementation deps.retrofit.adapter
+    implementation deps.retrofit.okhttp
+    implementation deps.retrofit.okhttp_logging
 
-    testImplementation "junit:junit:$project.junit"
-    androidTestImplementation "androidx.test:runner:$project.runner"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$project.espresso"
+    implementation deps.glide.glide
+    kapt deps.glide.complier
 
+    implementation deps.navigation.fragment
+    implementation deps.navigation.ui
+
+    implementation deps.paging.paging
+    implementation deps.paging.rx
+
+    testImplementation deps.support.junit
+    androidTestImplementation deps.support.runner
+    androidTestImplementation deps.support.espresso_core
 }
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
