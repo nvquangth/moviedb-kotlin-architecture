@@ -9,5 +9,7 @@ class MovieResponse(
     @SerializedName("results")
     val mResult: List<Movie>? = null,
     @SerializedName("page")
-    val mPage: Int? = null
+    val mPage: Int? = null,
+    @SerializedName("total_pages")
+    val totalPage: Int? = null
 ) : Parcelable
