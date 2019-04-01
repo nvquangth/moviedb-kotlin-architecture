@@ -16,7 +16,6 @@ import com.example.moviedb.ui.favorite.FavoriteViewModel
 import com.example.moviedb.ui.home.HomeViewModel
 import com.example.moviedb.ui.main.MainViewModel
 import com.example.moviedb.ui.nowplaying.NowPlayingViewModel
-import com.example.moviedb.ui.nowplaying2.NowPlayingViewModel2
 import com.example.moviedb.util.rx.BaseScheduler
 import com.example.moviedb.util.rx.SchedulerProvider
 import org.koin.androidx.viewmodel.experimental.builder.viewModel
@@ -29,10 +28,9 @@ import java.util.concurrent.Executors
 val viewModelModule = module {
     viewModel<HomeViewModel>()
     viewModel<MainViewModel>()
-    viewModel<NowPlayingViewModel>()
     viewModel<DetailViewModel>()
     viewModel<FavoriteViewModel>()
-    viewModel<NowPlayingViewModel2>()
+    viewModel<NowPlayingViewModel>()
 }
 
 val networkModule2 = module {
