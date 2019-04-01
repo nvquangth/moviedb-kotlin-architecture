@@ -1,4 +1,4 @@
-package com.example.moviedb.ui.nowplaying2
+package com.example.moviedb.ui.nowplaying
 
 import android.view.LayoutInflater
 import android.view.View

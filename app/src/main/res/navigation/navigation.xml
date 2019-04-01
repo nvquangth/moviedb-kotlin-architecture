@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/home_dest"
-        android:name="com.example.moviedb.ui.nowplaying2.NowPlayingFragment2"
+        android:name="com.example.moviedb.ui.nowplaying.NowPlayingFragment"
         android:label="Now Playing"
-        tools:layout="@layout/fragment_nowplaying_2">
+        tools:layout="@layout/fragment_nowplaying">
         <action
             android:id="@+id/action_nowPlayingFragment_to_detailFragment"
             app:destination="@id/detail_dest" />

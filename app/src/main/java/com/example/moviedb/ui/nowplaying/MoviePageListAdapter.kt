@@ -1,4 +1,4 @@
-package com.example.moviedb.ui.nowplaying2
+package com.example.moviedb.ui.nowplaying
 
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
@@ -9,7 +9,7 @@ import com.example.moviedb.data.model.Movie
 import com.example.moviedb.data.source.remote.network2.NetworkState
 import java.lang.IllegalArgumentException
 
-class MovieAdapter2(private val retryCallback: () -> Unit) :
+class MoviePageListAdapter(private val listener: (Movie) -> Unit, private val retryCallback: () -> Unit) :
     PagedListAdapter<Movie, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<Movie>() {
         override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
             oldItem == newItem
@@ -22,7 +22,7 @@ class MovieAdapter2(private val retryCallback: () -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            R.layout.item_movie_2 -> MovieItemViewHolder.create(parent)
+            R.layout.item_movie_2 -> MovieItemViewHolder.create(parent, listener)
             R.layout.network_state_item -> NetworkStateItemViewHolder.create(parent, retryCallback)
             else ->throw IllegalArgumentException("unknown view type $viewType")
         }
