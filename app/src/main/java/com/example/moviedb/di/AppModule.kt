@@ -8,17 +8,23 @@ import com.example.moviedb.data.source.local.sqlite.createDatabase
 import com.example.moviedb.data.source.remote.network.MovieRemoteDataSource
 import com.example.moviedb.data.source.remote.network.createService
 import com.example.moviedb.data.source.remote.network.createServiceClient
+import com.example.moviedb.data.source.remote.network2.MovieByPageKeyedRepository
+import com.example.moviedb.data.source.remote.network2.MovieDataSourceFactory
+import com.example.moviedb.data.source.remote.network2.PageKeyedMovieDataSource
 import com.example.moviedb.ui.detail.DetailViewModel
 import com.example.moviedb.ui.favorite.FavoriteViewModel
 import com.example.moviedb.ui.home.HomeViewModel
 import com.example.moviedb.ui.main.MainViewModel
 import com.example.moviedb.ui.nowplaying.NowPlayingViewModel
+import com.example.moviedb.ui.nowplaying2.NowPlayingViewModel2
 import com.example.moviedb.util.rx.BaseScheduler
 import com.example.moviedb.util.rx.SchedulerProvider
 import org.koin.androidx.viewmodel.experimental.builder.viewModel
 import org.koin.dsl.module.module
 import org.koin.experimental.builder.create
 import org.koin.experimental.builder.singleBy
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
 val viewModelModule = module {
     viewModel<HomeViewModel>()
@@ -26,6 +32,14 @@ val viewModelModule = module {
     viewModel<NowPlayingViewModel>()
     viewModel<DetailViewModel>()
     viewModel<FavoriteViewModel>()
+    viewModel<NowPlayingViewModel2>()
+}
+
+val networkModule2 = module {
+    single { createExecutor() }
+    single { create<MovieByPageKeyedRepository>() }
+    single { create<PageKeyedMovieDataSource>() }
+    single { create<MovieDataSourceFactory>() }
 }
 
 val networkModule = module {
@@ -53,5 +67,8 @@ val appModule = listOf(
     networkModule,
     repositoryModule,
     rxModule,
-    databaseModule
+    databaseModule,
+    networkModule2
 )
+
+fun createExecutor(): Executor = Executors.newFixedThreadPool(5)
