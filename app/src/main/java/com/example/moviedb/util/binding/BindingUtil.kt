@@ -7,7 +7,7 @@ import com.example.moviedb.util.Constant
 
 @BindingAdapter("imageUrl")
 fun setImage(imageView: ImageView, url: String?) {
-    Glide.with(imageView)
+    Glide.with(imageView.context)
         .load("${Constant.BASE_IMG_URL}$url")
         .into(imageView)
 }

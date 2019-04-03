@@ -44,9 +44,9 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, FavoriteViewModel
             this.adapter = adapter
         }
 
-        viewModel.getMovies().observe(viewLifecycleOwner, Observer { movies ->
-            adapter.submitList(movies.toMutableList())
-        })
+//        viewModel.getMovies().observe(viewLifecycleOwner, Observer { movies ->
+//            adapter.submitList(movies.toMutableList())
+//        })
     }
 
     override fun getLayoutResource(): Int = R.layout.fragment_favorite

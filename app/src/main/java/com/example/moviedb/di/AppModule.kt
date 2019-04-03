@@ -1,6 +1,7 @@
 package com.example.moviedb.di
 
 import com.example.moviedb.data.repository.MovieRepository
+import com.example.moviedb.data.repository.MovieRepositoryImpl
 import com.example.moviedb.data.source.MovieDataSource
 import com.example.moviedb.data.source.local.MovieLocalDataSource
 import com.example.moviedb.data.source.local.sqlite.createDao
@@ -16,8 +17,8 @@ import com.example.moviedb.ui.favorite.FavoriteViewModel
 import com.example.moviedb.ui.home.HomeViewModel
 import com.example.moviedb.ui.main.MainViewModel
 import com.example.moviedb.ui.nowplaying.NowPlayingViewModel
-import com.example.moviedb.util.rx.BaseScheduler
-import com.example.moviedb.util.rx.SchedulerProvider
+import com.example.moviedb.util.scheduler.BaseScheduler
+import com.example.moviedb.util.scheduler.SchedulerProvider
 import org.koin.androidx.viewmodel.experimental.builder.viewModel
 import org.koin.dsl.module.module
 import org.koin.experimental.builder.create
@@ -46,9 +47,9 @@ val networkModule = module {
 }
 
 val repositoryModule = module {
-    single { create<MovieRepository>() }
     singleBy<MovieDataSource.Remote, MovieRemoteDataSource>()
     singleBy<MovieDataSource.Local, MovieLocalDataSource>()
+    singleBy<MovieRepository, MovieRepositoryImpl>()
 }
 
 val rxModule = module {

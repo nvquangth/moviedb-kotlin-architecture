@@ -2,10 +2,10 @@ package com.example.moviedb.data.source.remote.network
 
 import com.example.moviedb.util.Constant
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
@@ -26,7 +26,7 @@ fun createService(): Retrofit {
     okHttpBuilder.readTimeout(Constant.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
     okHttpBuilder.connectTimeout(Constant.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
     return Retrofit.Builder().baseUrl(Constant.END_POINT)
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
         .client(okHttpBuilder.build())
         .build()
