@@ -22,7 +22,7 @@ versions.lifecycle_ext = "2.1.0-alpha02"
 versions.koin = "1.0.2"
 
 // room
-versions.room = "2.1.0-alpha04"
+versions.room = "2.1.0-alpha06"
 
 // rx
 versions.rxjava = "2.2.7"
@@ -87,6 +87,7 @@ def room = [:]
 room.room = "androidx.room:room-runtime:$versions.room"
 room.rxjava = "androidx.room:room-rxjava2:$versions.room"
 room.complier = "androidx.room:room-compiler:$versions.room"
+room.coroutines = "androidx.room:room-ktx:$versions.room"
 deps.room = room
 
 def rx = [:]
