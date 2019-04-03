@@ -1,21 +1,21 @@
-package com.example.moviedb.data.source.remote.network2
+package com.example.moviedb.data.paging.pagekey
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import com.example.moviedb.data.model.Movie
-import com.example.moviedb.data.source.remote.network.Api
+import com.example.moviedb.data.paging.NetworkState
 import com.example.moviedb.util.scheduler.BaseScheduler
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.Executor
 
-class PageKeyedMovieDataSource(
-    private val api: Api,
+abstract class PageKeyedDataSource<T>(
     private val scheduler: BaseScheduler,
     private val retryExecutor: Executor
-) : PageKeyedDataSource<Int, Movie>() {
+) : PageKeyedDataSource<Int, T>() {
 
     private var retry: (() -> Any)? = null
+    protected var response: Deferred<Any>? = null
 
     val networkState = MutableLiveData<NetworkState>()
     val initialLoad = MutableLiveData<NetworkState>()
@@ -32,14 +32,14 @@ class PageKeyedMovieDataSource(
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, Movie>
+        callback: LoadInitialCallback<Int, T>
     ) {
         networkState.postValue(NetworkState.LOADING)
         initialLoad.postValue(NetworkState.LOADING)
 
         scheduler.ioScope.launch {
             try {
-                val result = api.getNowPlaying(1).await().mResult ?: emptyList()
+                val result = getDataFirstPage()
 
                 withContext(scheduler.uiContext) {
                     retry = null
@@ -59,14 +59,14 @@ class PageKeyedMovieDataSource(
         }
     }
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, T>) {
         networkState.postValue(NetworkState.LOADING)
 
         scheduler.ioScope.launch {
             try {
-                val response = api.getNowPlaying(params.key)
-                val totalPage = response.await().totalPage
-                val result = response.await().mResult
+                response = getResponse(params)
+                val totalPage = getTotalPage()
+                val result = getResult()
 
                 withContext(scheduler.uiContext) {
                     val nextKey = if (params.key == totalPage) {
@@ -76,10 +76,14 @@ class PageKeyedMovieDataSource(
                     }
                     networkState.postValue(NetworkState.LOADED)
                     retry = null
-                    callback.onResult(result ?: emptyList(), nextKey)
+                    callback.onResult(result, nextKey)
                 }
             } catch (e: Throwable) {
-                networkState.postValue(NetworkState.error(e.message))
+                networkState.postValue(
+                    NetworkState.error(
+                        e.message
+                    )
+                )
 
                 retry = {
                     loadAfter(params, callback)
@@ -88,7 +92,15 @@ class PageKeyedMovieDataSource(
         }
     }
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, T>) {
 
     }
+
+    abstract suspend fun getTotalPage(): Int
+
+    abstract suspend fun getResult(): List<T>
+
+    abstract suspend fun getResponse(params: LoadParams<Int>): Deferred<Any>
+
+    abstract suspend fun getDataFirstPage(): List<T>
 }

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviedb.R
 import com.example.moviedb.data.model.Movie
-import com.example.moviedb.data.source.remote.network2.NetworkState
+import com.example.moviedb.data.paging.NetworkState
 import java.lang.IllegalArgumentException
 
 class MoviePageListAdapter(private val listener: (Movie) -> Unit, private val retryCallback: () -> Unit) :

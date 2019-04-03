@@ -1,4 +1,4 @@
-package com.example.moviedb.data.source.remote.network2
+package com.example.moviedb.data.paging
 
 enum class Status {
     RUNNING,

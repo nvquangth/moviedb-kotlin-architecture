@@ -8,8 +8,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviedb.R
-import com.example.moviedb.data.source.remote.network2.NetworkState
-import com.example.moviedb.data.source.remote.network2.Status
+import com.example.moviedb.data.paging.NetworkState
+import com.example.moviedb.data.paging.Status
 
 class NetworkStateItemViewHolder(view: View, private val retryCallback: () -> Unit) :
     RecyclerView.ViewHolder(view) {
