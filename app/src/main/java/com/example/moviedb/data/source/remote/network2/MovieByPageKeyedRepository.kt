@@ -4,7 +4,7 @@ import androidx.lifecycle.Transformations
 import androidx.paging.toLiveData
 import com.example.moviedb.data.model.Movie
 import com.example.moviedb.data.source.remote.network.Api
-import com.example.moviedb.util.rx.BaseScheduler
+import com.example.moviedb.util.scheduler.BaseScheduler
 import java.util.concurrent.Executor
 
 class MovieByPageKeyedRepository(
