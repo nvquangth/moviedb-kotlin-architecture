@@ -1,20 +1,17 @@
-package com.example.moviedb.data.source.remote.network2
+package com.example.moviedb.data.paging.repository
 
 import androidx.lifecycle.Transformations
 import androidx.paging.toLiveData
-import com.example.moviedb.data.model.Movie
-import com.example.moviedb.data.source.remote.network.Api
-import com.example.moviedb.util.scheduler.BaseScheduler
+import com.example.moviedb.data.paging.Listing
+import com.example.moviedb.data.paging.factory.DataSourceFactory
 import java.util.concurrent.Executor
 
-class MovieByPageKeyedRepository(
-    private val api: Api,
-    private val scheduler: BaseScheduler,
+abstract class PageKeyedRepository<T>(
     private val executor: Executor
 ) {
 
-    fun getNowPlaying(pageSize: Int): Listing<Movie> {
-        val sourceFactory = MovieDataSourceFactory(api, scheduler, executor)
+    fun getData(pageSize: Int): Listing<T> {
+        val sourceFactory = createDataSourceFactory()
         val livePagedList = sourceFactory.toLiveData(pageSize = pageSize, fetchExecutor = executor)
         val refreshState = Transformations.switchMap(sourceFactory.sourceLiveData) {
             it.initialLoad
@@ -33,4 +30,6 @@ class MovieByPageKeyedRepository(
             refreshState = refreshState
         )
     }
+
+    abstract fun createDataSourceFactory(): DataSourceFactory<T>
 }

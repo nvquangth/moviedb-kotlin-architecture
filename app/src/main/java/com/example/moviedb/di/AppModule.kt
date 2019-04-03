@@ -9,9 +9,9 @@ import com.example.moviedb.data.source.local.sqlite.createDatabase
 import com.example.moviedb.data.source.remote.network.MovieRemoteDataSource
 import com.example.moviedb.data.source.remote.network.createService
 import com.example.moviedb.data.source.remote.network.createServiceClient
-import com.example.moviedb.data.source.remote.network2.MovieByPageKeyedRepository
-import com.example.moviedb.data.source.remote.network2.MovieDataSourceFactory
-import com.example.moviedb.data.source.remote.network2.PageKeyedMovieDataSource
+import com.example.moviedb.data.paging.factory.MovieDataSourceFactory
+import com.example.moviedb.data.paging.pagekey.PageKeyedMovieDataSource
+import com.example.moviedb.data.paging.repository.MovieByPageKeyedRepository
 import com.example.moviedb.ui.detail.DetailViewModel
 import com.example.moviedb.ui.favorite.FavoriteViewModel
 import com.example.moviedb.ui.home.HomeViewModel

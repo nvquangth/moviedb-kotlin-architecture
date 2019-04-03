@@ -1,4 +1,4 @@
-package com.example.moviedb.data.source.remote.network2
+package com.example.moviedb.data.paging
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList

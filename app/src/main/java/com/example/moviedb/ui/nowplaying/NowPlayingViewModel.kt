@@ -4,12 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations.switchMap
 import com.example.moviedb.base.BaseViewModel
 import com.example.moviedb.data.model.Movie
-import com.example.moviedb.data.source.remote.network2.Listing
-import com.example.moviedb.data.source.remote.network2.MovieByPageKeyedRepository
+import com.example.moviedb.data.paging.Listing
+import com.example.moviedb.data.paging.repository.MovieByPageKeyedRepository
 
 class NowPlayingViewModel(private val repository: MovieByPageKeyedRepository) : BaseViewModel() {
 
-    private val repoResult = MutableLiveData<Listing<Movie>>(repository.getNowPlaying(1))
+    private val repoResult = MutableLiveData<Listing<Movie>>(repository.getData(1))
 
     val movies = switchMap(repoResult) {
         it.pageList
