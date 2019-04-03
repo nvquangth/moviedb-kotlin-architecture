@@ -1,9 +1,6 @@
 package com.example.moviedb.data.source
 
-import androidx.lifecycle.LiveData
 import com.example.moviedb.data.model.Movie
-import io.reactivex.Completable
-import io.reactivex.Single
 
 interface MovieDataSource {
 
@@ -16,12 +13,14 @@ interface MovieDataSource {
 
     interface Local {
 
-        fun addMovie(movie: Movie): Completable
+        suspend fun addMovie(movie: Movie)
 
-        fun deleteMovie(movie: Movie): Completable
+        suspend fun deleteMovie(movie: Movie)
 
-        fun getMovies(): LiveData<List<Movie>>
+        suspend fun updateMovie(movie: Movie)
 
-        fun getMovie(id: Int): Single<Movie>
+        suspend fun getMovies(): List<Movie>
+
+        suspend fun getMovie(id: Int): Movie?
     }
 }

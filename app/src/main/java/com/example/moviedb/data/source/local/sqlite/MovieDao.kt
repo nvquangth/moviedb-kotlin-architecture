@@ -1,26 +1,28 @@
 package com.example.moviedb.data.source.local.sqlite
 
-import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Update
+import androidx.room.Query
+import androidx.room.OnConflictStrategy
 import com.example.moviedb.data.model.Movie
-import io.reactivex.Completable
-import io.reactivex.Single
 
 @Dao
 interface MovieDao {
 
-    @Insert
-    fun insert(movie: Movie): Completable
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(movie: Movie)
 
     @Update
-    fun update(movie: Movie): Completable
+    suspend fun update(movie: Movie)
 
     @Delete
-    fun delete(movie: Movie): Completable
+    suspend fun delete(movie: Movie)
 
     @Query("SELECT * FROM movie")
-    fun getMovies(): LiveData<List<Movie>>
+    suspend fun getMovies(): List<Movie>
 
     @Query("SELECT * FROM movie WHERE id = :id")
-    fun getMovie(id: Int): Single<Movie>
+    suspend fun getMovie(id: Int): Movie?
 }
