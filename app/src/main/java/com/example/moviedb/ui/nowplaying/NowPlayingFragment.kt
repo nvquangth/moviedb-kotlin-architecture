@@ -43,7 +43,7 @@ class NowPlayingFragment : BaseFragment<FragmentNowplayingBinding, NowPlayingVie
         })
 
         viewModel.networkState.observe(viewLifecycleOwner, Observer {
-            adapter.setNetworkState(it)
+            adapter.networkState = it
         })
     }
 
