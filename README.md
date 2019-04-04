@@ -1,5 +1,7 @@
 # moviedb-kotlin-architecture
 
+(https://developer.android.com/topic/libraries/architecture/images/final-architecture.png)
+
 Kotlin: https://kotlinlang.org/docs/reference/
 
 Data binding: https://developer.android.com/topic/libraries/data-binding/
