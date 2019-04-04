@@ -16,7 +16,7 @@
 
         <ImageView
             android:id="@+id/image_movie"
-            imageUrl="@{viewModel.movie.mPosterPath}"
+            imageUrl="@{viewModel.movie.mBackdropPath}"
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_200"
             android:contentDescription="@string/app_name"
