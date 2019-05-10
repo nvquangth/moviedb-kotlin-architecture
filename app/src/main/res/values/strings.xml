@@ -2,6 +2,8 @@
     <string name="app_name">Movie Db</string>
     <string name="title_activity_main">Main Activity</string>
     <string name="title_now_playing">Now playing</string>
+    <string name="title_setting">Settings</string>
+    <string name="title_feedback">Help &amp; Feedback</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="title_home">Home</string>
@@ -9,4 +11,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_rate">Rate: </string>
     <string name="retry">Retry</string>
+    <string name="slogan">Movie &amp; TV</string>
 </resources>
